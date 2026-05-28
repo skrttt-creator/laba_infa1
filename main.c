@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-//2 Вариант
+//2 Вариант(динамич массив(целые и вещ числа))
 
 
 // структура
@@ -91,11 +91,11 @@ void xsort(DynamicArray* x) {
 }
 
 // Map
-DynamicArray* xmap(DynamicArray* x, void (*func)(void*)) {
-    DynamicArray* res = x_mass(x->type);
+DynamicArray* xmap(DynamicArray* x, void (*func)(void*)) { //передевать а func 2 указ
+    DynamicArray* res = x_mass(x->type); //
     for (size_t i = 0; i < x->size; i++) {
         void* el = xget(x, i);
-        void* temp = malloc(x->type->size);
+        void* temp = malloc(x->type->size); // исправить
         memcpy(temp, el, x->type->size); 
         func(temp);                       
         xpush(res, temp);
@@ -117,14 +117,14 @@ DynamicArray* xwhere(DynamicArray* x, bool (*predicate)(const void*)) {
 }
 
 // объединяем два массива одинакового типа(контактенация)
-DynamicArray* xconcat(DynamicArray* da1, DynamicArray* da2) {
-    if (da1->type != da2->type) {
+DynamicArray* xconcat(DynamicArray* x1, DynamicArray* x2) {
+    if (x1->type != x2->type) {
         printf("нельзя склеить массивы разных классов\n");
         return NULL;
     }
-    DynamicArray* res = x_mass(da1->type);
-    for (size_t i = 0; i < da1->size; i++) xpush(res, xget(da1, i));
-    for (size_t i = 0; i < da2->size; i++) xpush(res, xget(da2, i));
+    DynamicArray* res = x_mass(x1->type);
+    for (size_t i = 0; i < x1->size; i++) xpush(res, xget(x1, i));
+    for (size_t i = 0; i < x2->size; i++) xpush(res, xget(x2, i));
     return res;
 }
 
@@ -138,7 +138,7 @@ void double_add_half(void* val) { *(double*)val += 0.5; }
 bool double_is_positive(const void* val) { return *(double*)val > 0.0; }
 
 
-void test_int_array() {
+void test_int_array() {  //сделать автоматич проверки(ассерт)
     printf("\nтест целых чисел\n");
     DynamicArray* arr1 = x_mass(&IntType);
     
@@ -190,9 +190,9 @@ void test_double_array() {
 }
 
 int main() {
-    int c = 0;
+    int c = 0; 
     while(1) {
-        printf("1. запустить тесты для массива целых чисел (int)\n");
+        printf("1. запустить тесты для массива целых чисел (int)\n"); //больше функционала(самому наполнять массив, функция сортировки)
         printf("2. Запустить тесты для массива вещественных чисел (double)\n");
         printf("3. Выход\n");
         printf("Ваш выбор: ");
