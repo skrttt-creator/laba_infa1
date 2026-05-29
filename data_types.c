@@ -10,3 +10,4 @@ int double_comp(const void* a, const void* b) {
 }
 void double_print(const void* a) { printf("%.2f", *(double*)a); }
 TypeInf DoubleType = { sizeof(double), double_comp, double_print };
+//
