@@ -1,7 +1,7 @@
 #include "dynamic_array.h"
 
 void manual_mode() {
-    printf("\n--- РУЧНОЙ РЕЖИМ ---\n");
+    printf("\n РУЧНОЙ РЕЖИМ \n");
     printf("Выберите тип (1 - int, 2 - double): ");
     int choice; scanf("%d", &choice);
     TypeInf* type = (choice == 1) ? &IntType : &DoubleType;
