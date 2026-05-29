@@ -16,5 +16,5 @@ DynamicArray* x_mass(TypeInf* type);
 void xfree(DynamicArray* x);
 void xpush(DynamicArray* x, const void* val);
 void xsort(DynamicArray* x, int order);
-// ... (остальные функции: xmap, xwhere, xconcat)
+// (остальные функции: xmap, xwhere, xconcat)
 #endif
