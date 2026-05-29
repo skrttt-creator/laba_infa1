@@ -1,5 +1,5 @@
 #include "dynamic_array.h"
-
+//
 DynamicArray* x_mass(TypeInf* type) {
     DynamicArray* x = (DynamicArray*)malloc(sizeof(DynamicArray));
     if (!x) exit(1);
