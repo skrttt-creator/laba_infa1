@@ -11,3 +11,4 @@ typedef struct {
 extern TypeInf IntType;
 extern TypeInf DoubleType;
 #endif
+//
