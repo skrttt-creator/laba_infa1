@@ -6,7 +6,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -std=c11
 
 # Список всех объектных файлов
-OBJS = main.o dynamic_array.o data_types.o tests.o
+OBJS = main.o dynamic_array.o data_types.o tests.o manual.c
 
 # Правило сборки
 $(TARGET): $(OBJS)
