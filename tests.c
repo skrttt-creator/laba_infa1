@@ -1,44 +1,52 @@
+#include "tests.h"
 #include "dynamic_array.h"
+#include "types.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <assert.h>
 
-// Вспомогательные функции для тестирования
-void int_multiply_by(void* val, void* context) { *(int*)val *= *(int*)context; }
-bool int_is_even(const void* val) { return (*(int*)val % 2) == 0; }
-void double_add(void* val, void* context) { *(double*)val += *(double*)context; }
-bool double_is_positive(const void* val) { return *(double*)val > 0.0; }
+static bool test_double_array(void) {
+    printf("\nЗапуск автотестов для double\n");
+    DynamicArray* arr = x_mass(&DoubleType);
+    double vals[] = {-1.5, 3.14};
+    xpush(arr, &vals[0]); xpush(arr, &vals[1]);
+    
+    double addend = 1.0;
+    DynamicArray* mapped = xmap(arr, double_add, &addend);
+    assert(*(double*)xget(mapped, 0) > -0.51 && *(double*)xget(mapped, 0) < -0.49);
+    
+    DynamicArray* filtered = xwhere(arr, double_is_positive);
+    assert(filtered->size == 1);
+    
+    xfree(arr); xfree(mapped); xfree(filtered);
+    printf("  [ACCEPT] Все тесты DOUBLE пройдены успешно!\n");
+    return true;
+}
 
-void test_int_array() {
-    DynamicArray* arr = x_mass(&IntType);
-    int vals[] = {5, 2, 9, 1};
+static bool test_string_array(void) {
+    printf("\nЗапуск автотестов для string\n");
+    DynamicArray* arr = x_mass(&StringType);
+    const char* vals[] = {"banana", "apple", "kiwi", "ox"};
     for (int i = 0; i < 4; i++) xpush(arr, &vals[i]);
     
     xsort(arr, 1);
-    assert(*(int*)xget(arr, 0) == 1);
+    assert(strcmp(*(char**)xget(arr, 0), "apple") == 0);
     
-    int mult = 10;
-    DynamicArray* mapped = xmap(arr, int_multiply_by, &mult);
-    assert(*(int*)xget(mapped, 3) == 90);
+    DynamicArray* mapped = xmap(arr, string_add_suffix, "!");
+    assert(strcmp(*(char**)xget(mapped, 0), "apple!") == 0);
     
-    xfree(arr); xfree(mapped);
-    printf("  [OK] Тесты INT пройдены.\n");
+    DynamicArray* filtered = xwhere(arr, string_len_greater_than_3);
+    assert(filtered->size == 3);
+    
+    for (size_t i = 0; i < mapped->size; i++) free(*(char**)xget(mapped, i));
+    xfree(arr); xfree(mapped); xfree(filtered);
+    printf("  [ACCEPT] Все тесты STRING пройдены успешно!\n");
+    return true;
 }
 
-void test_double_array() {
-    DynamicArray* arr = x_mass(&DoubleType);
-    double vals[] = {-1.5, 3.14};
-    for (int i = 0; i < 2; i++) xpush(arr, &vals[i]);
-    
-    double add = 1.0;
-    DynamicArray* mapped = xmap(arr, double_add, &add);
-    assert(*(double*)xget(mapped, 1) > 4.13 && *(double*)xget(mapped, 1) < 4.15);
-    
-    xfree(arr); xfree(mapped);
-    printf("  [OK] Тесты DOUBLE пройдены.\n");
-}
-
-void run_all_tests() {
-    printf("\nЗАПУСК АВТОТЕСТОВ\n");
-    test_int_array();
+void run_all_tests(void) {
+    printf("АВТОМАТИЧЕСКОЕ ТЕСТИРОВАНИЕ ЧЕРЕЗ ASSERT\n");
     test_double_array();
-    printf("==========================\n");
+    test_string_array();
 }
