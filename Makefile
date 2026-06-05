@@ -1,30 +1,17 @@
-# Компилятор
 CC = gcc
+CFLAGS = -Wall -Wextra -std=c99 -g
+TARGET = lab26
 
-# Флаги:
-# -Wall, -Wextra — вывод всех предупреждений (помогает найти ошибки)
-# -std=c11 — стандарт языка C
-# -g — добавляет информацию для отладки (полезно, если программа упадет)
-CFLAGS = -Wall -Wextra -std=c11 -g
+SRCS = main.c dynamic_array.c types.c tests.c
+OBJS = $(SRCS:.c=.o)
 
-# Имя итогового исполняемого файла
-TARGET = my_app
-
-# Список всех объектных файлов, которые нужно получить из .c
-OBJS = main.o dynamic_array.o data_types.o tests.o manual.o
-
-# Правило по умолчанию (вызывается при простом 'make')
 all: $(TARGET)
 
-# Правило для линковки (сборки программы из объектных файлов)
 $(TARGET): $(OBJS)
-	$(CC) $(OBJS) -o $(TARGET)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
 
-# Правило для компиляции каждого .c файла в .o файл
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Правило для очистки (удаляет созданные файлы)
-# Вызывается командой 'make clean'
 clean:
 	rm -f $(OBJS) $(TARGET)
