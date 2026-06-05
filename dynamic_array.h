@@ -6,8 +6,8 @@
 
 typedef struct {
     size_t size;
-    int (*comp)(const void*, const void*);      // По возрастанию
-    int (*comp_desc)(const void*, const void*); // По убыванию
+    int (*comp)(const void*, const void*);
+    int (*comp_desc)(const void*, const void*); 
     void (*print)(const void*);
 } TypeInf;
 
