@@ -1,9 +1,15 @@
 #ifndef DYNAMIC_ARRAY_H
 #define DYNAMIC_ARRAY_H
-#include "data_types.h"
-#include <stdlib.h>
-#include <string.h>
+
+#include <stddef.h>
 #include <stdbool.h>
+
+typedef struct {
+    size_t size;
+    int (*comp)(const void*, const void*);      // По возрастанию
+    int (*comp_desc)(const void*, const void*); // По убыванию
+    void (*print)(const void*);
+} TypeInf;
 
 typedef struct {
     void* data;
@@ -15,6 +21,11 @@ typedef struct {
 DynamicArray* x_mass(TypeInf* type);
 void xfree(DynamicArray* x);
 void xpush(DynamicArray* x, const void* val);
+void* xget(DynamicArray* x, size_t index);
+void xprint(DynamicArray* x);
 void xsort(DynamicArray* x, int order);
-// (остальные функции: xmap, xwhere, xconcat)
+DynamicArray* xconcat(DynamicArray* a, DynamicArray* b);
+DynamicArray* xmap(DynamicArray* x, void (*func)(void*, void*), void* context);
+DynamicArray* xwhere(DynamicArray* x, bool (*predicate)(const void*));
+
 #endif
